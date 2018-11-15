@@ -87,7 +87,6 @@ class UserForm extends React.Component<Props, State> {
   render() {
     const { loading, t } = this.props;
     const user = this.state.user;
-
     let nameField = null;
     let passwordFields = null;
     if (!this.props.user) {
@@ -101,28 +100,30 @@ class UserForm extends React.Component<Props, State> {
           helpText={t("help.usernameHelpText")}
         />
       );
-      passwordFields = (
-        <>
-          <InputField
-            label={t("user.password")}
-            type="password"
-            onChange={this.handlePasswordChange}
-            value={user ? user.password : ""}
-            validationError={this.state.validatePasswordError}
-            errorMessage={t("validation.password-invalid")}
-            helpText={t("help.passwordHelpText")}
-          />
-          <InputField
-            label={t("validation.validatePassword")}
-            type="password"
-            onChange={this.handlePasswordValidationChange}
-            value={this.state ? this.state.validatePassword : ""}
-            validationError={this.state.passwordConfirmationError}
-            errorMessage={t("validation.passwordValidation-invalid")}
-            helpText={t("help.passwordConfirmHelpText")}
-          />
-        </>
-      );
+      if (!this.props.user) {
+        passwordFields = (
+          <>
+            <InputField
+              label={t("user.password")}
+              type="password"
+              onChange={this.handlePasswordChange}
+              value={user ? user.password : ""}
+              validationError={this.state.validatePasswordError}
+              errorMessage={t("validation.password-invalid")}
+              helpText={t("help.passwordHelpText")}
+            />
+            <InputField
+              label={t("validation.validatePassword")}
+              type="password"
+              onChange={this.handlePasswordValidationChange}
+              value={this.state ? this.state.validatePassword : ""}
+              validationError={this.state.passwordConfirmationError}
+              errorMessage={t("validation.passwordValidation-invalid")}
+              helpText={t("help.passwordConfirmHelpText")}
+            />
+          </>
+        );
+      }
     }
     return (
       <form onSubmit={this.submit}>
