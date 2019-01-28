@@ -111,7 +111,7 @@ class Sources extends React.Component<Props> {
   }
 
   renderBranchSelector = () => {
-    const { branches, revision, t } = this.props;
+    const { branches, revision, repository, t } = this.props;
 
     if (branches) {
       return (
@@ -122,6 +122,7 @@ class Sources extends React.Component<Props> {
           selected={(b: Branch) => {
             this.branchSelected(b);
           }}
+          repository={repository}
         />
       );
     }
