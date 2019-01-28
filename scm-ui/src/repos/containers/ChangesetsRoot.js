@@ -107,6 +107,7 @@ class BranchRoot extends React.Component<Props> {
           selected={(b: Branch) => {
             this.branchSelected(b);
           }}
+          repository={repository}
         />
       );
     }

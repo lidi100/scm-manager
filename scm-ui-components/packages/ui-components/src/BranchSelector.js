@@ -1,11 +1,11 @@
 // @flow
 
 import React from "react";
-import type {Branch, Repository} from "@scm-manager/ui-types";
+import type { Branch, Repository } from "@scm-manager/ui-types";
 import injectSheet from "react-jss";
 import classNames from "classnames";
 import DropDown from "./forms/DropDown";
-import {apiClient} from "./apiclient";
+import { apiClient } from "./apiclient";
 
 const styles = {
   zeroflex: {
@@ -41,23 +41,29 @@ class BranchSelector extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const selectedBranch = this.props.branches.find(
+      branch => branch.name === this.props.selectedBranch
+    );
 
-    const selectedBranch = this.props.branches.find(branch => branch.name === this.props.selectedBranch);
-    this.setState({ selectedBranch });
-
-if(!selectedBranch){
-  apiClient
-    .get(this.props.repository._links.configuration.href)
-    .then(response => response.json())
-    .then(payload => payload.defaultBranch)
-    .then(defaultBranch => {
-        const selectedBranch = this.props.branches.find(branch => branch.name === defaultBranch);
-        this.setState({ selectedBranch });
-      }
-    )
-    .catch(error => this.setState({ selectedBranch: undefined }));
-}
-
+    if (
+      !selectedBranch &&
+      this.props.repository &&
+      this.props.repository._links.configuration
+    ) {
+      apiClient
+        .get(this.props.repository._links.configuration.href)
+        .then(response => response.json())
+        .then(payload => payload.defaultBranch)
+        .then(defaultBranch => {
+          const selectedBranch = this.props.branches.find(
+            branch => branch.name === defaultBranch
+          );
+          this.setState({ selectedBranch });
+        })
+        .catch(error => this.setState({ selectedBranch: undefined }));
+    } else {
+      this.setState({ selectedBranch });
+    }
   }
 
   render() {
@@ -108,8 +114,7 @@ if(!selectedBranch){
   branchSelected = (branchName: string) => {
     const { branches, selected } = this.props;
     if (!branchName) {
-     this.setState({ selectedBranch: undefined });
-
+      this.setState({ selectedBranch: undefined });
 
       selected(undefined);
       return;
