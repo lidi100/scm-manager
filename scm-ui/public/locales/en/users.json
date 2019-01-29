@@ -14,8 +14,8 @@
     "title": "Users",
     "subtitle": "Create, read, update and delete users"
   },
-  "create-user-button": {
-    "label": "Create"
+  "createUserButton": {
+    "label": "Create User"
   },
   "delete-user-button": {
     "label": "Delete",

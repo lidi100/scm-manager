@@ -11,7 +11,7 @@ class CreateGroupButton extends React.Component<Props> {
   render() {
     const { t } = this.props;
     return (
-      <CreateButton label={t("create-group-button.label")} link="/groups/add" />
+      <CreateButton label={t("createGroupButton.label")} link="/groups/add" />
     );
   }
 }

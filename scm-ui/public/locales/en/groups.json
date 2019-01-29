@@ -23,8 +23,8 @@
     "title": "Create Group",
     "subtitle": "Create a new group"
   },
-  "create-group-button": {
-    "label": "Create"
+  "createGroupButton": {
+    "label": "Create Group"
   },
   "edit-group-button": {
     "label": "Edit"

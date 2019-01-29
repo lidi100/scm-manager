@@ -12,7 +12,7 @@ class CreateUserButton extends React.Component<Props> {
   render() {
     const { t } = this.props;
     return (
-      <CreateButton label={t("create-user-button.label")} link="/users/add" />
+      <CreateButton label={t("createUserButton.label")} link="/users/add" />
     );
   }
 }
