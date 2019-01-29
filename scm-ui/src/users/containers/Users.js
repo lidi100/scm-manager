@@ -69,6 +69,7 @@ class Users extends React.Component<Props> {
         subtitle={t("users.subtitle")}
         loading={loading || !users}
         error={error}
+        horizontalRuleClass="page"
       >
         <UserTable users={users} />
         {this.renderPaginator()}

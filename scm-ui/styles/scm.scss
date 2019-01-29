@@ -193,6 +193,11 @@ $fa-font-path: "webfonts";
   }
 }
 
+// hr in title section
+hr.page {
+  margin: -1.5rem 0 0.5rem;
+}
+
 // forms
 .field:not(.is-grouped) {
   margin-bottom: 1rem;
