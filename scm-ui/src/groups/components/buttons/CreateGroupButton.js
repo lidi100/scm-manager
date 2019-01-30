@@ -1,17 +1,28 @@
 //@flow
 import React from "react";
 import { translate } from "react-i18next";
-import { CreateButton } from "@scm-manager/ui-components";
+import { CreateButton, CreateButtonInBox } from "@scm-manager/ui-components";
 
 type Props = {
-  t: string => string
+  t: string => string,
+  showButtonInBox: boolean
 };
 
 class CreateGroupButton extends React.Component<Props> {
   render() {
-    const { t } = this.props;
+    const { showButtonInBox, t } = this.props;
+
+    if (!showButtonInBox) {
+      return (
+        <CreateButton label={t("createGroupButton.label")} link="/groups/add" />
+      );
+    }
+
     return (
-      <CreateButton label={t("createGroupButton.label")} link="/groups/add" />
+      <CreateButtonInBox
+        label={t("createGroupButton.label")}
+        link="/groups/add"
+      />
     );
   }
 }
