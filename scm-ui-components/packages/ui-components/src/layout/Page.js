@@ -11,7 +11,6 @@ type Props = {
   loading?: boolean,
   error?: Error,
   showContentOnError?: boolean,
-  horizontalRuleClass?: string,
   children: React.Node,
   renderButton: () => any
 };
@@ -52,8 +51,8 @@ class Page extends React.Component<Props> {
   }
 
   renderHorizontalRule() {
-    const { horizontalRuleClass } = this.props;
-    if (horizontalRuleClass) {
+    const { title, subtitle } = this.props;
+    if (title && subtitle) {
       return <hr className="page" />;
     }
   }

@@ -69,7 +69,6 @@ class Users extends React.Component<Props> {
         subtitle={t("users.subtitle")}
         loading={loading || !users}
         error={error}
-        horizontalRuleClass="page"
         renderButton={() => this.renderCreateButton()}
       >
         <UserTable users={users} />
