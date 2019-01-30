@@ -12,7 +12,7 @@ type Props = {
   error?: Error,
   showContentOnError?: boolean,
   children: React.Node,
-  renderButton: () => any
+  renderLeftOfTitle: () => any
 };
 
 class Page extends React.Component<Props> {
@@ -43,11 +43,11 @@ class Page extends React.Component<Props> {
   }
 
   renderButton() {
-    const {loading, renderButton} = this.props;
-    if(loading || !renderButton){
+    const {loading, renderLeftOfTitle} = this.props;
+    if(loading || !renderLeftOfTitle){
       return null;
     }
-    return renderButton();
+    return renderLeftOfTitle();
   }
 
   renderHorizontalRule() {

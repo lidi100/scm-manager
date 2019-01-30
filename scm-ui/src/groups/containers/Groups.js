@@ -69,7 +69,7 @@ class Groups extends React.Component<Props> {
         subtitle={t("groups.subtitle")}
         loading={loading || !groups}
         error={error}
-        renderButton={() => this.renderCreateButton()}
+        renderLeftOfTitle={() => this.renderCreateButton()}
       >
         <GroupTable groups={groups} />
         {this.renderPaginator()}

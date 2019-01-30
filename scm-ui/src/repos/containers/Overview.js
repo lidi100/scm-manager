@@ -14,7 +14,12 @@ import {
   isFetchReposPending
 } from "../modules/repos";
 import { translate } from "react-i18next";
-import { CreateButton, Page, Paginator } from "@scm-manager/ui-components";
+import {
+  CreateButton,
+  CreateButtonInBox,
+  Page,
+  Paginator
+} from "@scm-manager/ui-components";
 import RepositoryList from "../components/list";
 import { withRouter } from "react-router-dom";
 import type { History } from "history";
@@ -65,6 +70,7 @@ class Overview extends React.Component<Props> {
         subtitle={t("overview.subtitle")}
         loading={loading}
         error={error}
+        renderLeftOfTitle={() => this.renderCreateButton()}
       >
         {this.renderList()}
       </Page>
@@ -78,7 +84,7 @@ class Overview extends React.Component<Props> {
         <div>
           <RepositoryList repositories={collection._embedded.repositories} />
           <Paginator collection={collection} onPageChange={fetchReposByLink} />
-          {this.renderCreateButton()}
+          {this.renderCreateButtonInBox()}
         </div>
       );
     }
@@ -89,7 +95,17 @@ class Overview extends React.Component<Props> {
     const { showCreateButton, t } = this.props;
     if (showCreateButton) {
       return (
-        <CreateButton
+        <CreateButton label={t("overview.createButton")} link="/repos/create" />
+      );
+    }
+    return null;
+  }
+
+  renderCreateButtonInBox() {
+    const { showCreateButton, t } = this.props;
+    if (showCreateButton) {
+      return (
+        <CreateButtonInBox
           label={t("overview.createButton")}
           link="/repos/create"
         />
