@@ -4,6 +4,8 @@ import Loading from "./../Loading";
 import ErrorNotification from "./../ErrorNotification";
 import Title from "./Title";
 import Subtitle from "./Subtitle";
+import classNames from "classnames";
+import injectSheet from "react-jss";
 
 type Props = {
   title?: string,
@@ -12,7 +14,14 @@ type Props = {
   error?: Error,
   showContentOnError?: boolean,
   children: React.Node,
-  renderLeftOfTitle: () => any
+  renderLeftOfTitle: () => any,
+  classes: any
+};
+
+const styles = {
+  spacing: {
+    marginBottom: "0rem !important"
+  }
 };
 
 class Page extends React.Component<Props> {
@@ -23,6 +32,7 @@ class Page extends React.Component<Props> {
         <div className="container">
           {this.renderTitle()}
           <Subtitle subtitle={subtitle} />
+          {this.renderHorizontalRule()}
           <ErrorNotification error={error} />
           {this.renderContent()}
         </div>
@@ -31,11 +41,11 @@ class Page extends React.Component<Props> {
   }
 
   renderTitle() {
-    const { title, renderLeftOfTitle } = this.props;
+    const { title, renderLeftOfTitle, classes } = this.props;
     if (renderLeftOfTitle) {
       return (
         <>
-        <div className="level">
+        <div className={classNames(classes.spacing, "level")}>
           <div className="level-left">
             <div className="level-item">
               <Title title={title} />
@@ -45,7 +55,6 @@ class Page extends React.Component<Props> {
             <div className="level-item">{this.renderLeftOfTitle()}</div>
           </div>
         </div>
-        <hr className="page" />
           </>
       );
     }
@@ -60,6 +69,13 @@ class Page extends React.Component<Props> {
     return renderLeftOfTitle();
   }
 
+  renderHorizontalRule() {
+    const { renderLeftOfTitle } = this.props;
+    if (renderLeftOfTitle) {
+      return <hr className="page" />;
+    }
+  }
+
   renderContent() {
     const { loading, children, showContentOnError, error } = this.props;
     if (error && !showContentOnError) {
@@ -72,4 +88,4 @@ class Page extends React.Component<Props> {
   }
 }
 
-export default Page;
+export default injectSheet(styles)(Page);
