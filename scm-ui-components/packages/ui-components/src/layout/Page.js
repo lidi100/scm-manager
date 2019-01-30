@@ -21,19 +21,7 @@ class Page extends React.Component<Props> {
     return (
       <section className="section">
         <div className="container">
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <Title title={title} />
-              </div>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                {this.renderButton()}
-              </div>
-            </div>
-          </div>
-          {this.renderHorizontalRule()}
+          {this.renderTitle()}
           <Subtitle subtitle={subtitle} />
           <ErrorNotification error={error} />
           {this.renderContent()}
@@ -42,19 +30,34 @@ class Page extends React.Component<Props> {
     );
   }
 
-  renderButton() {
-    const {loading, renderLeftOfTitle} = this.props;
-    if(loading || !renderLeftOfTitle){
+  renderTitle() {
+    const { title, renderLeftOfTitle } = this.props;
+    if (renderLeftOfTitle) {
+      return (
+        <>
+        <div className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <Title title={title} />
+            </div>
+          </div>
+          <div className="level-right">
+            <div className="level-item">{this.renderLeftOfTitle()}</div>
+          </div>
+        </div>
+        <hr className="page" />
+          </>
+      );
+    }
+    return <Title title={title} />;
+  }
+
+  renderLeftOfTitle() {
+    const { loading, renderLeftOfTitle } = this.props;
+    if (loading || !renderLeftOfTitle) {
       return null;
     }
     return renderLeftOfTitle();
-  }
-
-  renderHorizontalRule() {
-    const { title, subtitle } = this.props;
-    if (title && subtitle) {
-      return <hr className="page" />;
-    }
   }
 
   renderContent() {
