@@ -4,7 +4,6 @@ import Loading from "./../Loading";
 import ErrorNotification from "./../ErrorNotification";
 import Title from "./Title";
 import Subtitle from "./Subtitle";
-import HorizontalRule from "./HorizontalRule";
 
 type Props = {
   title?: string,
@@ -55,7 +54,7 @@ class Page extends React.Component<Props> {
   renderHorizontalRule() {
     const { horizontalRuleClass } = this.props;
     if (horizontalRuleClass) {
-      return <HorizontalRule className={horizontalRuleClass} />;
+      return <hr className="page" />;
     }
   }
 
