@@ -70,10 +70,11 @@ class Users extends React.Component<Props> {
         loading={loading || !users}
         error={error}
         horizontalRuleClass="page"
+        renderButton={() => this.renderCreateButton()}
       >
         <UserTable users={users} />
         {this.renderPaginator()}
-        {this.renderCreateButton()}
+        {this.renderCreateButtonInBox()}
       </Page>
     );
   }
@@ -88,7 +89,15 @@ class Users extends React.Component<Props> {
 
   renderCreateButton() {
     if (this.props.canAddUsers) {
-      return <CreateUserButton />;
+      return <CreateUserButton showButtonInBox={false} />;
+    } else {
+      return;
+    }
+  }
+
+  renderCreateButtonInBox() {
+    if (this.props.canAddUsers) {
+      return <CreateUserButton showButtonInBox={true} />;
     } else {
       return;
     }

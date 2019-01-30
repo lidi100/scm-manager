@@ -13,7 +13,8 @@ type Props = {
   error?: Error,
   showContentOnError?: boolean,
   horizontalRuleClass?: string,
-  children: React.Node
+  children: React.Node,
+  renderButton: () => any
 };
 
 class Page extends React.Component<Props> {
@@ -22,7 +23,18 @@ class Page extends React.Component<Props> {
     return (
       <section className="section">
         <div className="container">
-          <Title title={title} />
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <Title title={title} />
+              </div>
+            </div>
+            <div className="level-right">
+              <div className="level-item">
+                {this.renderButton()}
+              </div>
+            </div>
+          </div>
           {this.renderHorizontalRule()}
           <Subtitle subtitle={subtitle} />
           <ErrorNotification error={error} />
@@ -30,6 +42,14 @@ class Page extends React.Component<Props> {
         </div>
       </section>
     );
+  }
+
+  renderButton() {
+    const {loading, renderButton} = this.props;
+    if(loading || !renderButton){
+      return null;
+    }
+    return renderButton();
   }
 
   renderHorizontalRule() {
