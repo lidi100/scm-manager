@@ -1,7 +1,6 @@
 // @flow
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import RepositoryForm from "../components/form";
 import DeleteRepo from "./DeleteRepo";
 import type { Repository } from "@scm-manager/ui-types";
@@ -15,6 +14,7 @@ import {
 import type { History } from "history";
 import { ErrorNotification } from "@scm-manager/ui-components";
 import { ExtensionPoint } from "@scm-manager/ui-extensions";
+import { compose } from "redux";
 
 type Props = {
   loading: boolean,
@@ -78,7 +78,7 @@ class EditRepo extends React.Component<Props> {
 
   renderRepositoryForm() {
     const { canModifyRepo, repository, loading } = this.props;
-    if(canModifyRepo) {
+    if (canModifyRepo) {
       return (
         <RepositoryForm
           repository={repository}
@@ -115,7 +115,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(EditRepo));
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(EditRepo);

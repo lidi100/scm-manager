@@ -88,7 +88,6 @@ class ConfigForm extends React.Component<Props, State> {
     const config = this.state.config;
 
     let noPermissionNotification = null;
-
     if (this.state.showNotification) {
       noPermissionNotification = (
         <Notification
