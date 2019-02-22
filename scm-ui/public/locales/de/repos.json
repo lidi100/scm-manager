@@ -61,7 +61,8 @@
   },
   "repositoryForm": {
     "subtitle": "Repository bearbeiten",
-    "submit": "Speichern"
+    "submit": "Speichern",
+    "noPermissionNotification": "Hinweis: Es fehlen Berechtigungen zum Anzeigen der allgemeinen Repositoryeinstellungen!"
   },
   "sources": {
     "file-tree": {

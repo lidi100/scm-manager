@@ -12,9 +12,10 @@ import {
   modifyRepoReset
 } from "../modules/repos";
 import type { History } from "history";
-import { ErrorNotification } from "@scm-manager/ui-components";
+import { ErrorNotification, Notification } from "@scm-manager/ui-components";
 import { ExtensionPoint } from "@scm-manager/ui-extensions";
 import { compose } from "redux";
+import { translate } from "react-i18next";
 
 type Props = {
   loading: boolean,
@@ -27,13 +28,30 @@ type Props = {
   // context props
   repository: Repository,
   history: History,
-  match: any
+  match: any,
+  t: string => string
 };
 
-class EditRepo extends React.Component<Props> {
+type State = {
+  showNotification: boolean
+};
+
+class EditRepo extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      showNotification: false
+    };
+  }
+
   componentDidMount() {
-    const { modifyRepoReset, repository } = this.props;
+    const { canModifyRepo, modifyRepoReset, repository } = this.props;
     modifyRepoReset(repository);
+
+    if (!canModifyRepo) {
+      this.setState({ ...this.state, showNotification: true });
+    }
   }
 
   repoModified = () => {
@@ -49,7 +67,7 @@ class EditRepo extends React.Component<Props> {
   };
 
   matchedUrl = () => {
-    return this.stripEndingSlash(this.props.match.url);
+    return this.stripEndingSlash("/config"); // TODO: use something like this.props.match.url instead
   };
 
   render() {
@@ -77,7 +95,19 @@ class EditRepo extends React.Component<Props> {
   }
 
   renderRepositoryForm() {
-    const { canModifyRepo, repository, loading } = this.props;
+    const { canModifyRepo, repository, loading, t } = this.props;
+
+    let noPermissionNotification = null;
+    if (this.state.showNotification) {
+      noPermissionNotification = (
+        <Notification
+          type={"info"}
+          children={t("repositoryForm.noPermissionNotification")}
+          onClose={() => this.onClose()}
+        />
+      );
+    }
+
     if (canModifyRepo) {
       return (
         <RepositoryForm
@@ -89,7 +119,15 @@ class EditRepo extends React.Component<Props> {
         />
       );
     }
+    return noPermissionNotification;
   }
+
+  onClose = () => {
+    this.setState({
+      ...this.state,
+      showNotification: false
+    });
+  };
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -116,6 +154,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
+  translate("repos"),
   connect(
     mapStateToProps,
     mapDispatchToProps

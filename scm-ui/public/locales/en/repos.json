@@ -61,7 +61,8 @@
   },
   "repositoryForm": {
     "subtitle": "Edit Repository",
-    "submit": "Save"
+    "submit": "Save",
+    "noPermissionNotification": "Please note: You do not have the permission to view the general repository settings!"
   },
   "sources": {
     "file-tree": {
