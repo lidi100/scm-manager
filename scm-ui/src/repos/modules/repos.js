@@ -270,6 +270,11 @@ export function modifyRepoReset(repository: Repository): Action {
   };
 }
 
+export const isPermittedToModifyRepo = (repository: Repository): boolean => {
+  return repository._links.update && repository._links.update.href;
+};
+
+
 // delete
 
 export function deleteRepo(repository: Repository, callback?: () => void) {

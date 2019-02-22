@@ -9,6 +9,7 @@ import {
   modifyRepo,
   isModifyRepoPending,
   getModifyRepoFailure,
+  isPermittedToModifyRepo,
   modifyRepoReset
 } from "../modules/repos";
 import type { History } from "history";
@@ -18,6 +19,7 @@ import { ExtensionPoint } from "@scm-manager/ui-extensions";
 type Props = {
   loading: boolean,
   error: Error,
+  canModifyRepo: boolean,
 
   modifyRepo: (Repository, () => void) => void,
   modifyRepoReset: Repository => void,
@@ -51,7 +53,7 @@ class EditRepo extends React.Component<Props> {
   };
 
   render() {
-    const { loading, error, repository } = this.props;
+    const { error, repository } = this.props;
 
     const url = this.matchedUrl();
 
@@ -63,13 +65,7 @@ class EditRepo extends React.Component<Props> {
     return (
       <div>
         <ErrorNotification error={error} />
-        <RepositoryForm
-          repository={repository}
-          loading={loading}
-          submitForm={repo => {
-            this.props.modifyRepo(repo, this.repoModified);
-          }}
-        />
+        {this.renderRepositoryForm()}
         <ExtensionPoint
           name="repo-config.route"
           props={extensionProps}
@@ -79,15 +75,32 @@ class EditRepo extends React.Component<Props> {
       </div>
     );
   }
+
+  renderRepositoryForm() {
+    const { canModifyRepo, repository, loading } = this.props;
+    if(canModifyRepo) {
+      return (
+        <RepositoryForm
+          repository={repository}
+          loading={loading}
+          submitForm={repo => {
+            this.props.modifyRepo(repo, this.repoModified);
+          }}
+        />
+      );
+    }
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { namespace, name } = ownProps.repository;
   const loading = isModifyRepoPending(state, namespace, name);
   const error = getModifyRepoFailure(state, namespace, name);
+  const canModifyRepo = isPermittedToModifyRepo(ownProps.repository);
   return {
     loading,
-    error
+    error,
+    canModifyRepo
   };
 };
 
