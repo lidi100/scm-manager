@@ -52,10 +52,7 @@ class RepositoryForm extends React.Component<Props, State> {
   }
 
   isFalsy(value) {
-    if (!value) {
-      return true;
-    }
-    return false;
+    return !value;
   }
 
   isValid = () => {

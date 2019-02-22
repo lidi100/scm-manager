@@ -113,6 +113,7 @@ class RepositoryConfig extends React.Component<Props, State> {
     if (!(loadingBranches || loadingDefaultBranch)) {
       return (
         <>
+          <hr />
           <Subtitle subtitle={t("scm-git-plugin.repo-config.title")}/>
           {this.renderBranchChangedNotification()}
           <form onSubmit={this.submit}>
@@ -128,7 +129,6 @@ class RepositoryConfig extends React.Component<Props, State> {
               disabled={!this.state.selectedBranchName}
             />
           </form>
-          <hr />
         </>
       );
     } else {

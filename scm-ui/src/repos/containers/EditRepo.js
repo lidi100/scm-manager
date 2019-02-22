@@ -64,13 +64,12 @@ class EditRepo extends React.Component<Props> {
       <div>
         <ErrorNotification error={error} />
         <RepositoryForm
-          repository={this.props.repository}
+          repository={repository}
           loading={loading}
           submitForm={repo => {
             this.props.modifyRepo(repo, this.repoModified);
           }}
         />
-        <hr />
         <ExtensionPoint
           name="repo-config.route"
           props={extensionProps}
