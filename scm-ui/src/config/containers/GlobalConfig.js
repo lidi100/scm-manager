@@ -58,7 +58,7 @@ class GlobalConfig extends React.Component<Props, State> {
       this.props.fetchConfig(configLink);
     } else {
       const url = this.matchedUrl();
-      history.push(url + "/hg");
+      history.push(url + "/hg"); // TODO: Fix redirect to next available config and handle error otherwise
     }
   }
 
