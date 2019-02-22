@@ -56,7 +56,7 @@ class Config extends React.Component<Props> {
           <div className="column is-one-quarter">
             <Navigation>
               <Section label={t("config.navigationLabel")}>
-                {this.renderGlobalConfiguration()}
+                {this.renderGlobalConfigurationNavLink()}
                 <ExtensionPoint
                   name="config.navigation"
                   props={extensionProps}
@@ -70,10 +70,10 @@ class Config extends React.Component<Props> {
     );
   }
 
-  renderGlobalConfiguration() {
+  renderGlobalConfigurationNavLink() {
     const { links, t } = this.props;
     const url = this.matchedUrl();
-    
+
     if (links.config) {
       return (
         <NavLink to={`${url}`} label={t("config.globalConfigurationNavLink")} />

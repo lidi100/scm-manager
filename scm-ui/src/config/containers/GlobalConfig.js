@@ -17,6 +17,8 @@ import { connect } from "react-redux";
 import type { Config } from "@scm-manager/ui-types";
 import ConfigForm from "../components/form/ConfigForm";
 import { getConfigLink } from "../../modules/indexResource";
+import {compose} from "redux";
+import {withRouter} from "react-router-dom";
 
 type Props = {
   loading: boolean,
@@ -31,6 +33,8 @@ type Props = {
   configReset: void => void,
 
   // context objects
+  history: any,
+  match: any,
   t: string => string
 };
 
@@ -48,9 +52,26 @@ class GlobalConfig extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const { configLink, history } = this.props;
     this.props.configReset();
-    this.props.fetchConfig(this.props.configLink);
+    if(configLink) {
+      this.props.fetchConfig(configLink);
+    } else {
+      const url = this.matchedUrl();
+      history.push(url + "/hg");
+    }
   }
+
+  stripEndingSlash = (url: string) => {
+    if (url.endsWith("/")) {
+      return url.substring(0, url.length - 2);
+    }
+    return url;
+  };
+
+  matchedUrl = () => {
+    return this.stripEndingSlash(this.props.match.url);
+  };
 
   modifyConfig = (config: Config) => {
     this.props.modifyConfig(config);
@@ -85,7 +106,7 @@ class GlobalConfig extends React.Component<Props, State> {
       );
     }
     if (loading) {
-      return <Loading />;
+      return <Loading/>;
     }
 
     return (
@@ -133,7 +154,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(translate("config")(GlobalConfig));
+export default compose(
+  translate("config"),
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(GlobalConfig);
