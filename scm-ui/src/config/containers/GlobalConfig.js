@@ -75,13 +75,12 @@ class GlobalConfig extends React.Component<Props, State> {
   render() {
     const { t, error, loading, config, configUpdatePermission } = this.props;
 
-    if (error) {
+    if (error && configUpdatePermission) {
       return (
         <ErrorPage
           title={t("config.errorTitle")}
           subtitle={t("config.errorSubtitle")}
           error={error}
-          configUpdatePermission={configUpdatePermission}
         />
       );
     }
