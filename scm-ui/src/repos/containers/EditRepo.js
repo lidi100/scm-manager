@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import RepositoryForm from "../components/form";
 import DeleteRepo from "./DeleteRepo";
 import type { Repository } from "@scm-manager/ui-types";
@@ -67,7 +68,7 @@ class EditRepo extends React.Component<Props, State> {
   };
 
   matchedUrl = () => {
-    return this.stripEndingSlash("/config"); // TODO: use something like this.props.match.url instead
+    return this.stripEndingSlash(this.props.match.url);
   };
 
   render() {
@@ -158,5 +159,6 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )
+  ),
+  withRouter
 )(EditRepo);
