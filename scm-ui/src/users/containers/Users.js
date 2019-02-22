@@ -78,13 +78,7 @@ class Users extends React.Component<Props> {
         <UserTable users={users} />
         {this.renderPaginator()}
         {this.renderCreateButton()}
-        <PageActions>
-          <Button
-            label={t("users.createButton")}
-            link="/users/add"
-            color="primary"
-          />
-        </PageActions>
+        {this.renderPageActions()}
       </Page>
     );
   }
@@ -98,12 +92,28 @@ class Users extends React.Component<Props> {
   }
 
   renderCreateButton() {
-    const { t } = this.props;
-    if (this.props.canAddUsers) {
+    const { canAddUsers, t } = this.props;
+    if (canAddUsers) {
       return <CreateButton label={t("users.createButton")} link="/users/add" />;
     } else {
       return;
     }
+  }
+
+  renderPageActions() {
+    const { canAddUsers, t } = this.props;
+    if (canAddUsers) {
+      return (
+        <PageActions>
+          <Button
+            label={t("users.createButton")}
+            link="/users/add"
+            color="primary"
+          />
+        </PageActions>
+      );
+    }
+    return null;
   }
 }
 

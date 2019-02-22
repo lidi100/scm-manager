@@ -73,13 +73,7 @@ class Overview extends React.Component<Props> {
         error={error}
       >
         {this.renderList()}
-        <PageActions>
-          <Button
-            label={t("overview.createButton")}
-            link="/repos/create"
-            color="primary"
-          />
-        </PageActions>
+        {this.renderPageActions()}
       </Page>
     );
   }
@@ -93,6 +87,22 @@ class Overview extends React.Component<Props> {
           <Paginator collection={collection} onPageChange={fetchReposByLink} />
           {this.renderCreateButton()}
         </div>
+      );
+    }
+    return null;
+  }
+
+  renderPageActions() {
+    const { showCreateButton, t } = this.props;
+    if (showCreateButton) {
+      return (
+        <PageActions>
+          <Button
+            label={t("overview.createButton")}
+            link="/repos/create"
+            color="primary"
+          />
+        </PageActions>
       );
     }
     return null;
