@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { translate } from "react-i18next";
-import { Title, ErrorPage, Loading } from "@scm-manager/ui-components";
+import { Title, Loading, ErrorNotification } from "@scm-manager/ui-components";
 import {
   fetchConfig,
   getFetchConfigFailure,
@@ -14,11 +14,15 @@ import {
   modifyConfigReset
 } from "../modules/config";
 import { connect } from "react-redux";
-import type { Config } from "@scm-manager/ui-types";
+import type { Config, NamespaceStrategies } from "@scm-manager/ui-types";
 import ConfigForm from "../components/form/ConfigForm";
 import { getConfigLink } from "../../modules/indexResource";
-import {compose} from "redux";
-import {withRouter} from "react-router-dom";
+import {
+  fetchNamespaceStrategiesIfNeeded,
+  getFetchNamespaceStrategiesFailure,
+  getNamespaceStrategies,
+  isFetchNamespaceStrategiesPending
+} from "../modules/namespaceStrategies";
 
 type Props = {
   loading: boolean,
@@ -26,19 +30,20 @@ type Props = {
   config: Config,
   configUpdatePermission: boolean,
   configLink: string,
+  namespaceStrategies?: NamespaceStrategies,
 
   // dispatch functions
   modifyConfig: (config: Config, callback?: () => void) => void,
   fetchConfig: (link: string) => void,
   configReset: void => void,
+  fetchNamespaceStrategiesIfNeeded: void => void,
 
   // context objects
-  history: any,
-  match: any,
   t: string => string
 };
 
 type State = {
+  configReadPermission: boolean,
   configChanged: boolean
 };
 
@@ -47,31 +52,20 @@ class GlobalConfig extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      configReadPermission: true,
       configChanged: false
     };
   }
 
   componentDidMount() {
-    const { configLink, history } = this.props;
     this.props.configReset();
-    if(configLink) {
-      this.props.fetchConfig(configLink);
+    this.props.fetchNamespaceStrategiesIfNeeded();
+    if (this.props.configLink) {
+      this.props.fetchConfig(this.props.configLink);
     } else {
-      const url = this.matchedUrl();
-      history.push(url + "/hg"); // TODO: Fix redirect to next available config and handle error otherwise
+      this.setState({configReadPermission: false});
     }
   }
-
-  stripEndingSlash = (url: string) => {
-    if (url.endsWith("/")) {
-      return url.substring(0, url.length - 2);
-    }
-    return url;
-  };
-
-  matchedUrl = () => {
-    return this.stripEndingSlash(this.props.match.url);
-  };
 
   modifyConfig = (config: Config) => {
     this.props.modifyConfig(config);
@@ -94,34 +88,49 @@ class GlobalConfig extends React.Component<Props, State> {
   };
 
   render() {
-    const { t, error, loading, config, configUpdatePermission } = this.props;
+    const { t, loading } = this.props;
 
-    if (error && configUpdatePermission) {
-      return (
-        <ErrorPage
-          title={t("config.errorTitle")}
-          subtitle={t("config.errorSubtitle")}
-          error={error}
-        />
-      );
-    }
     if (loading) {
-      return <Loading/>;
+      return <Loading />;
     }
 
     return (
       <div>
         <Title title={t("config.title")} />
-        {this.renderConfigChangedNotification()}
-        <ConfigForm
-          submitForm={config => this.modifyConfig(config)}
-          config={config}
-          loading={loading}
-          configUpdatePermission={configUpdatePermission}
-        />
+        {this.renderError()}
+        {this.renderContent()}
       </div>
     );
   }
+
+  renderError = () => {
+    const { error } = this.props;
+    if (error) {
+      return <ErrorNotification error={error} />;
+    }
+    return null;
+  };
+
+  renderContent = () => {
+    const { error, loading, config, configUpdatePermission, namespaceStrategies } = this.props;
+    const { configReadPermission } = this.state;
+    if (!error) {
+      return (
+        <>
+          {this.renderConfigChangedNotification()}
+          <ConfigForm
+            submitForm={config => this.modifyConfig(config)}
+            config={config}
+            loading={loading}
+            namespaceStrategies={namespaceStrategies}
+            configUpdatePermission={configUpdatePermission}
+            configReadPermission={configReadPermission}
+          />
+        </>
+      );
+    }
+    return null;
+  };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -134,31 +143,37 @@ const mapDispatchToProps = dispatch => {
     },
     configReset: () => {
       dispatch(modifyConfigReset());
+    },
+    fetchNamespaceStrategiesIfNeeded: () => {
+      dispatch(fetchNamespaceStrategiesIfNeeded());
     }
   };
 };
 
 const mapStateToProps = state => {
-  const loading = isFetchConfigPending(state) || isModifyConfigPending(state);
-  const error = getFetchConfigFailure(state) || getModifyConfigFailure(state);
+  const loading = isFetchConfigPending(state)
+    || isModifyConfigPending(state)
+    || isFetchNamespaceStrategiesPending(state);
+  const error = getFetchConfigFailure(state)
+    || getModifyConfigFailure(state)
+    || getFetchNamespaceStrategiesFailure(state);
+
   const config = getConfig(state);
   const configUpdatePermission = getConfigUpdatePermission(state);
   const configLink = getConfigLink(state);
+  const namespaceStrategies = getNamespaceStrategies(state);
 
   return {
     loading,
     error,
     config,
     configUpdatePermission,
-    configLink
+    configLink,
+    namespaceStrategies
   };
 };
 
-export default compose(
-  translate("config"),
-  withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(GlobalConfig);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(translate("config")(GlobalConfig));

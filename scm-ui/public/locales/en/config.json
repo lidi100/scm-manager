@@ -9,7 +9,8 @@
   "config-form": {
     "submit": "Submit",
     "submit-success-notification": "Configuration changed successfully!",
-    "no-permission-notification": "Please note: You do not have the permission to edit the config!"
+    "no-read-permission-notification": "Please note: You do not have the permission to see the config!",
+    "no-write-permission-notification": "Please note: You do not have the permission to edit the config!"
   },
   "proxy-settings": {
     "name": "Proxy Settings",
@@ -29,19 +30,6 @@
     "base-url": "Base URL",
     "force-base-url": "Force Base URL"
   },
-  "admin-settings": {
-    "name": "Administration Settings",
-    "admin-groups": "Admin Groups",
-    "admin-users": "Admin Users",
-    "remove-group-button": "Remove Admin Group",
-    "remove-user-button": "Remove Admin User",
-    "add-group-error": "The group name you want to add is not valid",
-    "add-group-textfield": "Add group you want to add to admin groups here",
-    "add-group-button": "Add Admin Group",
-    "add-user-error": "The user name you want to add is not valid",
-    "add-user-textfield": "Add user you want to add to admin users here",
-    "add-user-button": "Add Admin User"
-  },
   "login-attempt": {
     "name": "Login Attempt",
     "login-attempt-limit": "Login Attempt Limit",
@@ -56,7 +44,7 @@
     "skip-failed-authenticators": "Skip Failed Authenticators",
     "plugin-url": "Plugin URL",
     "enabled-xsrf-protection": "Enabled XSRF Protection",
-    "default-namespace-strategy": "Default Namespace Strategy"
+    "namespace-strategy": "Namespace Strategy"
   },
   "validation": {
     "date-format-invalid": "The date format is not valid",
@@ -86,6 +74,6 @@
     "proxyUserHelpText": "The username for the proxy server authentication.",
     "proxyExcludesHelpText": "Glob patterns for hostnames, which should be excluded from proxy settings.",
     "enableXsrfProtectionHelpText": "Enable XSRF Cookie Protection. Note: This feature is still experimental.",
-    "defaultNameSpaceStrategyHelpText": "The default namespace strategy."
+    "nameSpaceStrategyHelpText": "The namespace strategy."
   }
 }

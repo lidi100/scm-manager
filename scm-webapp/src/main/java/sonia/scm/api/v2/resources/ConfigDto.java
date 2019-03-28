@@ -23,10 +23,6 @@ public class ConfigDto extends HalRepresentation {
   private boolean disableGroupingGrid;
   private String dateFormat;
   private boolean anonymousAccessEnabled;
-  @NoBlankStrings
-  private Set<String> adminGroups;
-  @NoBlankStrings
-  private Set<String> adminUsers;
   private String baseUrl;
   private boolean forceBaseUrl;
   private int loginAttemptLimit;
@@ -35,7 +31,7 @@ public class ConfigDto extends HalRepresentation {
   private String pluginUrl;
   private long loginAttemptLimitTimeout;
   private boolean enabledXsrfProtection;
-  private String defaultNamespaceStrategy;
+  private String namespaceStrategy;
 
   @Override
   @SuppressWarnings("squid:S1185") // We want to have this method available in this package

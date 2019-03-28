@@ -73,7 +73,7 @@ class Overview extends React.Component<Props> {
         error={error}
       >
         {this.renderList()}
-        {this.renderPageActions()}
+        {this.renderPageActionCreateButton()}
       </Page>
     );
   }
@@ -92,7 +92,17 @@ class Overview extends React.Component<Props> {
     return null;
   }
 
-  renderPageActions() {
+  renderCreateButton() {
+    const { showCreateButton, t } = this.props;
+    if (showCreateButton) {
+      return (
+        <CreateButton label={t("overview.createButton")} link="/repos/create" />
+      );
+    }
+    return null;
+  }
+
+  renderPageActionCreateButton() {
     const { showCreateButton, t } = this.props;
     if (showCreateButton) {
       return (
@@ -103,16 +113,6 @@ class Overview extends React.Component<Props> {
             color="primary"
           />
         </PageActions>
-      );
-    }
-    return null;
-  }
-
-  renderCreateButton() {
-    const { showCreateButton, t } = this.props;
-    if (showCreateButton) {
-      return (
-        <CreateButton label={t("overview.createButton")} link="/repos/create" />
       );
     }
     return null;

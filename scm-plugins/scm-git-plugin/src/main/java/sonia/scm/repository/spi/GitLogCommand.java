@@ -43,12 +43,12 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sonia.scm.NotFoundException;
 import sonia.scm.repository.Changeset;
 import sonia.scm.repository.ChangesetPagingResult;
 import sonia.scm.repository.GitChangesetConverter;
@@ -78,6 +78,7 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
    */
   private static final Logger logger =
     LoggerFactory.getLogger(GitLogCommand.class);
+  public static final String REVISION = "Revision";
 
   //~--- constructors ---------------------------------------------------------
 
@@ -141,6 +142,10 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
     catch (IOException ex)
     {
       logger.error("could not open repository", ex);
+    }
+    catch (NullPointerException e)
+    {
+      throw notFound(entity(REVISION, revision).in(this.repository));
     }
     finally
     {
@@ -206,6 +211,9 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
 
         if (!Strings.isNullOrEmpty(request.getAncestorChangeset())) {
           ancestorId = repository.resolve(request.getAncestorChangeset());
+          if (ancestorId == null) {
+            throw notFound(entity(REVISION, request.getAncestorChangeset()).in(this.repository));
+          }
         }
 
         revWalk = new RevWalk(repository);
@@ -245,6 +253,8 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
               break;
             }
           }
+        } else if (ancestorId != null) {
+          throw notFound(entity(REVISION, request.getBranch()).in(this.repository));
         }
 
         if (branch != null) {
@@ -261,7 +271,11 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
     }
     catch (MissingObjectException e)
     {
-      throw notFound(entity("Revision", e.getObjectId().getName()).in(repository));
+      throw notFound(entity(REVISION, e.getObjectId().getName()).in(repository));
+    }
+    catch (NotFoundException e)
+    {
+      throw e;
     }
     catch (Exception ex)
     {
@@ -274,18 +288,5 @@ public class GitLogCommand extends AbstractGitCommand implements LogCommand
     }
 
     return changesets;
-  }
-
-  private ObjectId computeCommonAncestor(LogCommandRequest request, Repository repository, ObjectId startId, Ref branch) throws IOException {
-    try (RevWalk mergeBaseWalk = new RevWalk(repository)) {
-      mergeBaseWalk.setRevFilter(RevFilter.MERGE_BASE);
-      if (startId != null) {
-        mergeBaseWalk.markStart(mergeBaseWalk.lookupCommit(startId));
-      } else {
-        mergeBaseWalk.markStart(mergeBaseWalk.lookupCommit(branch.getObjectId()));
-      }
-      mergeBaseWalk.markStart(mergeBaseWalk.parseCommit(repository.resolve(request.getAncestorChangeset())));
-      return mergeBaseWalk.next().getId();
-    }
   }
 }

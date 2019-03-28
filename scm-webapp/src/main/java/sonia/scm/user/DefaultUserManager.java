@@ -72,13 +72,6 @@ public class DefaultUserManager extends AbstractUserManager
 {
 
   /** Field description */
-  public static final String ADMIN_PATH = "/sonia/scm/config/admin-account.xml";
-
-  /** Field description */
-  public static final String ANONYMOUS_PATH =
-    "/sonia/scm/config/anonymous-account.xml";
-
-  /** Field description */
   public static final String STORE_NAME = "users";
 
   /** the logger for XmlUserManager */
@@ -173,12 +166,6 @@ public class DefaultUserManager extends AbstractUserManager
   @Override
   public void init(SCMContextProvider context)
   {
-
-    // create default account only, if no other account is available
-    if (userDAO.getAll().isEmpty())
-    {
-      createDefaultAccounts();
-    }
   }
 
   /**
@@ -403,7 +390,7 @@ public class DefaultUserManager extends AbstractUserManager
     User user = get((String) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal());
 
     if (!user.getPassword().equals(oldPassword)) {
-      throw new InvalidPasswordException(ContextEntry.ContextBuilder.entity("passwordChange", "-").in(User.class, user.getName()));
+      throw new InvalidPasswordException(ContextEntry.ContextBuilder.entity("PasswordChange", "-").in(User.class, user.getName()));
     }
 
     user.setPassword(newPassword);
@@ -422,7 +409,7 @@ public class DefaultUserManager extends AbstractUserManager
       throw new NotFoundException(User.class, userId);
     }
     if (!isTypeDefault(user)) {
-      throw new ChangePasswordNotAllowedException(ContextEntry.ContextBuilder.entity("passwordChange", "-").in(User.class, user.getName()), user.getType());
+      throw new ChangePasswordNotAllowedException(ContextEntry.ContextBuilder.entity("PasswordChange", "-").in(User.class, user.getName()), user.getType());
     }
     user.setPassword(newPassword);
     this.modify(user);
@@ -454,28 +441,6 @@ public class DefaultUserManager extends AbstractUserManager
     finally
     {
       IOUtil.close(input);
-    }
-  }
-
-  /**
-   * Method description
-   *
-   */
-  private void createDefaultAccounts()
-  {
-    try
-    {
-      logger.info("create default accounts");
-
-      JAXBContext context = JAXBContext.newInstance(User.class);
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-
-      createDefaultAccount(unmarshaller, ADMIN_PATH);
-      createDefaultAccount(unmarshaller, ANONYMOUS_PATH);
-    }
-    catch (JAXBException ex)
-    {
-      logger.error("could not create default accounts", ex);
     }
   }
 

@@ -2,19 +2,21 @@
 import React from "react";
 import { translate } from "react-i18next";
 import { SubmitButton, Notification } from "@scm-manager/ui-components";
-import type { Config } from "@scm-manager/ui-types";
+import type { NamespaceStrategies, Config } from "@scm-manager/ui-types";
 import ProxySettings from "./ProxySettings";
 import GeneralSettings from "./GeneralSettings";
 import BaseUrlSettings from "./BaseUrlSettings";
-import AdminSettings from "./AdminSettings";
 import LoginAttempt from "./LoginAttempt";
 
 type Props = {
   submitForm: Config => void,
   config?: Config,
   loading?: boolean,
+  configReadPermission: boolean,
+  configUpdatePermission: boolean,
+  namespaceStrategies?: NamespaceStrategies,
+  // context props
   t: string => string,
-  configUpdatePermission: boolean
 };
 
 type State = {
@@ -43,8 +45,6 @@ class ConfigForm extends React.Component<Props, State> {
         disableGroupingGrid: false,
         dateFormat: "",
         anonymousAccessEnabled: false,
-        adminGroups: [],
-        adminUsers: [],
         baseUrl: "",
         forceBaseUrl: false,
         loginAttemptLimit: 0,
@@ -53,7 +53,7 @@ class ConfigForm extends React.Component<Props, State> {
         pluginUrl: "",
         loginAttemptLimitTimeout: 0,
         enabledXsrfProtection: true,
-        defaultNamespaceStrategy: "",
+        namespaceStrategy: "",
         _links: {}
       },
       showNotification: false,
@@ -84,15 +84,31 @@ class ConfigForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { loading, t, configUpdatePermission } = this.props;
+    const {
+      loading,
+      t,
+      namespaceStrategies,
+      configReadPermission,
+      configUpdatePermission
+    } = this.props;
     const config = this.state.config;
 
     let noPermissionNotification = null;
+
+    if (!configReadPermission) {
+      return (
+        <Notification
+          type={"danger"}
+          children={t("config-form.no-read-permission-notification")}
+        />
+      );
+    }
+
     if (this.state.showNotification) {
       noPermissionNotification = (
         <Notification
           type={"info"}
-          children={t("config-form.no-permission-notification")}
+          children={t("config-form.no-write-permission-notification")}
           onClose={() => this.onClose()}
         />
       );
@@ -102,6 +118,7 @@ class ConfigForm extends React.Component<Props, State> {
       <form onSubmit={this.submit}>
         {noPermissionNotification}
         <GeneralSettings
+          namespaceStrategies={namespaceStrategies}
           realmDescription={config.realmDescription}
           enableRepositoryArchive={config.enableRepositoryArchive}
           disableGroupingGrid={config.disableGroupingGrid}
@@ -110,7 +127,7 @@ class ConfigForm extends React.Component<Props, State> {
           skipFailedAuthenticators={config.skipFailedAuthenticators}
           pluginUrl={config.pluginUrl}
           enabledXsrfProtection={config.enabledXsrfProtection}
-          defaultNamespaceStrategy={config.defaultNamespaceStrategy}
+          namespaceStrategy={config.namespaceStrategy}
           onChange={(isValid, changedValue, name) =>
             this.onChange(isValid, changedValue, name)
           }
@@ -129,15 +146,6 @@ class ConfigForm extends React.Component<Props, State> {
         <BaseUrlSettings
           baseUrl={config.baseUrl}
           forceBaseUrl={config.forceBaseUrl}
-          onChange={(isValid, changedValue, name) =>
-            this.onChange(isValid, changedValue, name)
-          }
-          hasUpdatePermission={configUpdatePermission}
-        />
-        <hr />
-        <AdminSettings
-          adminGroups={config.adminGroups}
-          adminUsers={config.adminUsers}
           onChange={(isValid, changedValue, name) =>
             this.onChange(isValid, changedValue, name)
           }

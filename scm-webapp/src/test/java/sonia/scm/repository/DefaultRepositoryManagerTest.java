@@ -37,6 +37,7 @@ import com.github.sdorra.shiro.ShiroRule;
 import com.github.sdorra.shiro.SubjectAware;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.inject.util.Providers;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.util.ThreadContext;
 import org.junit.Before;
@@ -123,9 +124,12 @@ public class DefaultRepositoryManagerTest extends ManagerTestBase<Repository> {
     createTestRepository();
   }
 
-  @Test(expected = AlreadyExistsException.class)
+  @Test
   public void testCreateExisting() {
-    createTestRepository();
+    Repository testRepository = createTestRepository();
+    String expectedNamespaceAndName = testRepository.getNamespaceAndName().logString();
+    thrown.expect(AlreadyExistsException.class);
+    thrown.expectMessage(expectedNamespaceAndName);
     createTestRepository();
   }
 
@@ -392,18 +396,6 @@ public class DefaultRepositoryManagerTest extends ManagerTestBase<Repository> {
     assertNotNull(repository.getNamespace());
   }
 
-  private void createUriTestRepositories(RepositoryManager m) {
-    mockedNamespace = "namespace";
-    createRepository(m, new Repository("1", "hg", "namespace", "scm"));
-    createRepository(m, new Repository("2", "hg", "namespace", "scm-test"));
-    createRepository(m, new Repository("3", "git", "namespace", "test-1"));
-    createRepository(m, new Repository("4", "git", "namespace", "test-2"));
-
-    mockedNamespace = "other";
-    createRepository(m, new Repository("1", "hg", "other", "scm"));
-    createRepository(m, new Repository("2", "hg", "other", "scm-test"));
-  }
-
   //~--- methods --------------------------------------------------------------
 
   @Override
@@ -445,7 +437,7 @@ public class DefaultRepositoryManagerTest extends ManagerTestBase<Repository> {
     when(namespaceStrategy.createNamespace(Mockito.any(Repository.class))).thenAnswer(invocation -> mockedNamespace);
 
     return new DefaultRepositoryManager(configuration, contextProvider,
-      keyGenerator, repositoryDAO, handlerSet, namespaceStrategy);
+      keyGenerator, repositoryDAO, handlerSet, Providers.of(namespaceStrategy));
   }
 
   private void createRepository(RepositoryManager m, Repository repository) {

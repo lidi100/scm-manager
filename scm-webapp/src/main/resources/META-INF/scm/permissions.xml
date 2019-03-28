@@ -32,7 +32,10 @@
 
 -->
 <permissions>
-  
+
+  <permission>
+    <value>*</value>
+  </permission>
   <permission>
     <value>repository:read,pull:*</value>
   </permission>
@@ -50,6 +53,9 @@
   </permission>
   <permission>
     <value>group:*</value>
+  </permission>
+  <permission>
+    <value>permission:*</value>
   </permission>
   <permission>
     <value>configuration:list</value>

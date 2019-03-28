@@ -9,7 +9,8 @@
   "config-form": {
     "submit": "Speichern",
     "submit-success-notification": "Einstellungen wurden erfolgreich geändert!",
-    "no-permission-notification": "Hinweis: Es fehlen Berechtigungen zum Bearbeiten der Einstellungen!"
+    "no-read-permission-notification": "Hinweis: Es fehlen Berechtigungen zum Lesen der Einstellungen!",
+    "no-write-permission-notification": "Hinweis: Es fehlen Berechtigungen zum Bearbeiten der Einstellungen!"
   },
   "proxy-settings": {
     "name": "Proxy Einstellungen",
@@ -29,19 +30,6 @@
     "base-url": "Base URL",
     "force-base-url": "Base URL erzwingen"
   },
-  "admin-settings": {
-    "name": "Administrations Einstellungen",
-    "admin-groups": "Admin Gruppen",
-    "admin-users": "Admin Benutzer",
-    "remove-group-button": "Admin Group löschen",
-    "remove-user-button": "Admin Benutzer löschen",
-    "add-group-error": "Der eingegebene Gruppenname ist ungültig",
-    "add-group-textfield": "Neue Gruppe mit Administrationsrechten hinzufügen",
-    "add-group-button": "Admin Gruppe hinzufügen",
-    "add-user-error": "Der eingegebene Benutzername ist ungültig",
-    "add-user-textfield": "Neuen Benutzer mit Administrationsrechten hinzufügen",
-    "add-user-button": "Admin Benutzer hinzufügen"
-  },
   "login-attempt": {
     "name": "Anmeldeversuche",
     "login-attempt-limit": "Limit für Anmeldeversuche",
@@ -56,7 +44,7 @@
     "skip-failed-authenticators": "Fehlgeschlagene Authentifizierer überspringen",
     "plugin-url": "Plugin URL",
     "enabled-xsrf-protection": "XSRF Protection aktivieren",
-    "default-namespace-strategy": "Default Namespace Strategie"
+    "namespace-strategy": "Namespace Strategie"
   },
   "validation": {
     "date-format-invalid": "Das Datumsformat ist ungültig",
@@ -86,6 +74,6 @@
     "proxyUserHelpText": "Der Benutzername für die Proxy Server Anmeldung.",
     "proxyExcludesHelpText": "Glob patterns für Hostnamen, die von den Proxy-Einstellungen ausgeschlossen werden sollen.",
     "enableXsrfProtectionHelpText": "Xsrf Cookie Protection aktivieren. Hinweis: Dieses Feature befindet sich noch im Experimentalstatus.",
-    "defaultNameSpaceStrategyHelpText": "Die Standardstrategie für Namespaces."
+    "nameSpaceStrategyHelpText": "Strategie für Namespaces."
   }
 }

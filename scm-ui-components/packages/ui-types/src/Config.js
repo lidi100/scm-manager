@@ -12,8 +12,6 @@ export type Config = {
   disableGroupingGrid: boolean,
   dateFormat: string,
   anonymousAccessEnabled: boolean,
-  adminGroups: string[],
-  adminUsers: string[],
   baseUrl: string,
   forceBaseUrl: boolean,
   loginAttemptLimit: number,
@@ -22,6 +20,6 @@ export type Config = {
   pluginUrl: string,
   loginAttemptLimitTimeout: number,
   enabledXsrfProtection: boolean,
-  defaultNamespaceStrategy: string,
+  namespaceStrategy: string,
   _links: Links
 };

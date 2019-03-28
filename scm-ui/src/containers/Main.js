@@ -9,7 +9,7 @@ import Users from "../users/containers/Users";
 import Login from "../containers/Login";
 import Logout from "../containers/Logout";
 
-import { ProtectedRoute } from "@scm-manager/ui-components";
+import {ProtectedRoute} from "@scm-manager/ui-components";
 import {binder,  ExtensionPoint } from "@scm-manager/ui-extensions";
 
 import AddUser from "../users/containers/AddUser";
@@ -40,7 +40,7 @@ class Main extends React.Component<Props> {
     return (
       <div className="main">
         <Switch>
-          <Redirect exact path="/" to={url}/>
+          <Redirect exact from="/" to={url}/>
           <Route exact path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
           <ProtectedRoute

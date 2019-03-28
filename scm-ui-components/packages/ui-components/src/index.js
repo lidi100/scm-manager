@@ -25,8 +25,12 @@ export { default as Tooltip } from "./Tooltip";
 export { getPageFromMatch } from "./urls";
 export { default as Autocomplete} from "./Autocomplete";
 export { default as BranchSelector } from "./BranchSelector";
+export { default as MarkdownView } from "./MarkdownView";
+export { default as SyntaxHighlighter } from "./SyntaxHighlighter";
+export { default as ErrorBoundary } from "./ErrorBoundary";
 
-export { apiClient, NOT_FOUND_ERROR, UNAUTHORIZED_ERROR, CONFLICT_ERROR } from "./apiclient.js";
+export { apiClient } from "./apiclient.js";
+export * from "./errors";
 
 export * from "./avatar";
 export * from "./buttons";
@@ -36,3 +40,16 @@ export * from "./layout";
 export * from "./modals";
 export * from "./navigation";
 export * from "./repos";
+
+// not sure if it is required
+export type {
+  File,
+  FileChangeType,
+  Hunk,
+  Change,
+  BaseContext,
+  AnnotationFactory,
+  AnnotationFactoryContext,
+  DiffEventHandler,
+  DiffEventContext
+} from "./repos";

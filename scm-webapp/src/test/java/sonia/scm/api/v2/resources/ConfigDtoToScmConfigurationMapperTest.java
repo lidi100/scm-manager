@@ -41,8 +41,6 @@ public class ConfigDtoToScmConfigurationMapperTest {
     assertTrue(config.isDisableGroupingGrid());
     assertEquals("yyyy" , config.getDateFormat());
     assertTrue(config.isAnonymousAccessEnabled());
-    assertTrue("adminGroups", config.getAdminGroups().containsAll(Arrays.asList(expectedGroups)));
-    assertTrue("adminUsers", config.getAdminUsers().containsAll(Arrays.asList(expectedUsers)));
     assertEquals("baseurl" , config.getBaseUrl());
     assertTrue(config.isForceBaseUrl());
     assertEquals(41 , config.getLoginAttemptLimit());
@@ -51,7 +49,7 @@ public class ConfigDtoToScmConfigurationMapperTest {
     assertEquals("https://plug.ins" , config.getPluginUrl());
     assertEquals(40 , config.getLoginAttemptLimitTimeout());
     assertTrue(config.isEnabledXsrfProtection());
-    assertEquals("username", config.getDefaultNamespaceStrategy());
+    assertEquals("username", config.getNamespaceStrategy());
   }
 
   private ConfigDto createDefaultDto() {
@@ -66,8 +64,6 @@ public class ConfigDtoToScmConfigurationMapperTest {
     configDto.setDisableGroupingGrid(true);
     configDto.setDateFormat("yyyy");
     configDto.setAnonymousAccessEnabled(true);
-    configDto.setAdminGroups(Sets.newSet(expectedGroups));
-    configDto.setAdminUsers(Sets.newSet(expectedUsers));
     configDto.setBaseUrl("baseurl");
     configDto.setForceBaseUrl(true);
     configDto.setLoginAttemptLimit(41);
@@ -76,7 +72,7 @@ public class ConfigDtoToScmConfigurationMapperTest {
     configDto.setPluginUrl("https://plug.ins");
     configDto.setLoginAttemptLimitTimeout(40);
     configDto.setEnabledXsrfProtection(true);
-    configDto.setDefaultNamespaceStrategy("username");
+    configDto.setNamespaceStrategy("username");
 
     return configDto;
   }

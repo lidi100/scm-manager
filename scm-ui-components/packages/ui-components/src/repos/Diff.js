@@ -1,36 +1,27 @@
 //@flow
 import React from "react";
-import { Diff2Html } from "diff2html";
+import DiffFile from "./DiffFile";
+import type { DiffObjectProps } from "./DiffTypes";
 
-type Props = {
-  diff: string,
-  sideBySide: boolean
+type Props = DiffObjectProps & {
+  diff: any
 };
 
 class Diff extends React.Component<Props> {
-
   static defaultProps = {
     sideBySide: false
   };
 
   render() {
-    const { diff, sideBySide } = this.props;
-
-    const options = {
-      inputFormat: "diff",
-      outputFormat: sideBySide ? "side-by-side" : "line-by-line",
-      showFiles: false,
-      matching: "lines"
-    };
-
-    const outputHtml = Diff2Html.getPrettyHtml(diff, options);
-
+    const { diff, ...fileProps } = this.props;
     return (
-      // eslint-disable-next-line react/no-danger
-      <div dangerouslySetInnerHTML={{ __html: outputHtml }} />
+      <>
+        {diff.map((file, index) => (
+          <DiffFile key={index} file={file} {...fileProps} />
+        ))}
+      </>
     );
   }
-
 }
 
 export default Diff;

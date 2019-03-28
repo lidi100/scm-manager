@@ -12,19 +12,27 @@ type Props = {
   label?: string,
   placeholder?: SelectItem[],
   value?: string,
+  autofocus?: boolean,
   onChange: (value: string, name?: string) => void,
-  helpText?: string
+  helpText?: string,
+  disabled?: boolean
 };
 
 class Textarea extends React.Component<Props> {
   field: ?HTMLTextAreaElement;
+
+  componentDidMount() {
+    if (this.props.autofocus && this.field) {
+      this.field.focus();
+    }
+  }
 
   handleInput = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
     this.props.onChange(event.target.value, this.props.name);
   };
 
   render() {
-    const { placeholder, value, label, helpText } = this.props;
+    const { placeholder, value, label, helpText, disabled } = this.props;
 
     return (
       <div className="field">
@@ -38,6 +46,7 @@ class Textarea extends React.Component<Props> {
             placeholder={placeholder}
             onChange={this.handleInput}
             value={value}
+            disabled={!!disabled}
           />
         </div>
       </div>
