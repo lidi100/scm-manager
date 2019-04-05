@@ -24,7 +24,6 @@ export { default as HelpIcon } from "./HelpIcon";
 export { default as Tooltip } from "./Tooltip";
 export { getPageFromMatch } from "./urls";
 export { default as Autocomplete} from "./Autocomplete";
-export { default as BranchSelector } from "./BranchSelector";
 export { default as MarkdownView } from "./MarkdownView";
 export { default as SyntaxHighlighter } from "./SyntaxHighlighter";
 export { default as ErrorBoundary } from "./ErrorBoundary";

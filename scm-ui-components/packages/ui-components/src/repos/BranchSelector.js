@@ -1,11 +1,11 @@
 // @flow
 
 import React from "react";
-import type { Branch } from "@scm-manager/ui-types";
 import injectSheet from "react-jss";
 import classNames from "classnames";
-import DropDown from "./forms/DropDown";
-import {orderBranches} from "./orderBranches";
+import type { Branch } from "@scm-manager/ui-types";
+import DropDown from "../forms/DropDown";
+import { orderBranches } from "./orderBranches";
 
 const styles = {
   zeroflex: {

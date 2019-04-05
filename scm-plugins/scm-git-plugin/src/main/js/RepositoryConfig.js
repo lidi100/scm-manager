@@ -1,10 +1,9 @@
 // @flow
 
 import React from "react";
-
-import {apiClient, BranchSelector, ErrorPage, Loading, Subtitle, SubmitButton} from "@scm-manager/ui-components";
-import type {Branch, Repository} from "@scm-manager/ui-types";
 import {translate} from "react-i18next";
+import type {Branch, Repository} from "@scm-manager/ui-types";
+import {apiClient, ErrorPage, Loading, Subtitle, BranchSelector, SubmitButton} from "@scm-manager/ui-components";
 
 type Props = {
   repository: Repository,
