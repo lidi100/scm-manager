@@ -1,16 +1,10 @@
 // @flow
 import React from "react";
-import {
-  fetchBranches,
-  getBranches,
-  getFetchBranchesFailure,
-  isFetchBranchesPending
-} from "../modules/branches";
 import { connect } from "react-redux";
-import type { Branch, Repository } from "@scm-manager/ui-types";
 import { compose } from "redux";
 import { translate } from "react-i18next";
 import { withRouter } from "react-router-dom";
+import type { Branch, Repository } from "@scm-manager/ui-types";
 import {
   CreateButton,
   ErrorNotification,
@@ -18,6 +12,12 @@ import {
   Subtitle,
   orderBranches
 } from "@scm-manager/ui-components";
+import {
+  fetchBranches,
+  getBranches,
+  getFetchBranchesFailure,
+  isFetchBranchesPending
+} from "../modules/branches";
 import BranchTable from "../components/BranchTable";
 
 type Props = {

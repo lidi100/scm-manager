@@ -2,20 +2,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import type { Branch, Repository } from "@scm-manager/ui-types";
-import FileTree from "../components/FileTree";
-import { ErrorNotification, Loading } from "@scm-manager/ui-components";
-import BranchSelector from "../../../../../scm-ui-components/packages/ui-components/src/BranchSelector";
 import { translate } from "react-i18next";
+import { compose } from "redux";
+import type { Branch, Repository } from "@scm-manager/ui-types";
+import {
+  ErrorNotification,
+  Loading,
+  BranchSelector
+} from "@scm-manager/ui-components";
 import {
   fetchBranches,
   getBranches,
   getFetchBranchesFailure,
   isFetchBranchesPending
 } from "../../branches/modules/branches";
-import { compose } from "redux";
-import Content from "./Content";
 import { fetchSources, isDirectory } from "../modules/sources";
+import FileTree from "../components/FileTree";
+import Content from "./Content";
 
 type Props = {
   repository: Repository,
@@ -94,9 +97,7 @@ class Sources extends React.Component<Props> {
     if (currentFileIsDirectory) {
       return (
         <div className="panel">
-          <div className="panel-heading">
-            {this.renderBranchSelector()}
-          </div>
+          <div className="panel-heading">{this.renderBranchSelector()}</div>
           <FileTree
             repository={repository}
             revision={revision}
@@ -115,7 +116,7 @@ class Sources extends React.Component<Props> {
   renderBranchSelector = () => {
     const { branches, revision, t } = this.props;
 
-    if (branches) {
+    if (branches && branches.length > 0) {
       return (
         <BranchSelector
           branches={branches}

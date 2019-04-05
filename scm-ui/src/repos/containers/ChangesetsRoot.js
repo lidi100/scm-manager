@@ -1,15 +1,15 @@
 // @flow
 
 import React from "react";
-import type { Branch, Repository } from "@scm-manager/ui-types";
 import { translate } from "react-i18next";
 import { Route, withRouter } from "react-router-dom";
-import Changesets from "./Changesets";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import type { Branch, Repository } from "@scm-manager/ui-types";
 import {
-  BranchSelector,
   ErrorNotification,
-  Loading
+  Loading,
+  BranchSelector
 } from "@scm-manager/ui-components";
 import {
   fetchBranches,
@@ -17,7 +17,7 @@ import {
   getFetchBranchesFailure,
   isFetchBranchesPending
 } from "../branches/modules/branches";
-import { compose } from "redux";
+import Changesets from "./Changesets";
 
 type Props = {
   repository: Repository,
@@ -90,9 +90,7 @@ class ChangesetsRoot extends React.Component<Props> {
 
     return (
       <div className="panel">
-        <div className="panel-heading">
-        {this.renderBranchSelector()}
-        </div>
+        <div className="panel-heading">{this.renderBranchSelector()}</div>
         <Route path={`${url}/:page?`} component={() => changesets} />
       </div>
     );
