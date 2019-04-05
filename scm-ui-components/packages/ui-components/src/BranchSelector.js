@@ -86,7 +86,7 @@ class BranchSelector extends React.Component<Props, State> {
                   preselectedOption={
                     this.state.selectedBranch
                       ? this.state.selectedBranch.name
-                      : ""
+                      : branches[0].name
                   }
                 />
               </div>
