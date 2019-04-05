@@ -5,6 +5,7 @@ import type { Branch } from "@scm-manager/ui-types";
 import injectSheet from "react-jss";
 import classNames from "classnames";
 import DropDown from "./forms/DropDown";
+import {orderBranches} from "./orderBranches";
 
 const styles = {
   zeroflex: {
@@ -51,6 +52,7 @@ class BranchSelector extends React.Component<Props, State> {
     const { branches, classes, label, disabled } = this.props;
 
     if (branches) {
+      orderBranches(branches);
       return (
         <div
           className={classNames(
