@@ -90,24 +90,27 @@ class ChangesetsRoot extends React.Component<Props> {
 
     return (
       <div className="panel">
-        <div className="panel-heading">{this.renderBranchSelector()}</div>
+        {this.renderBranchSelector()}
         <Route path={`${url}/:page?`} component={() => changesets} />
       </div>
     );
   }
 
   renderBranchSelector = () => {
-    const { repository, branches, selected, t } = this.props;
-    if (repository._links.branches) {
+    const { branches, selected, t } = this.props;
+
+    if (branches && branches.length > 0) {
       return (
-        <BranchSelector
-          label={t("changesets.branchSelectorLabel")}
-          branches={branches}
-          selectedBranch={selected}
-          selected={(b: Branch) => {
-            this.branchSelected(b);
-          }}
-        />
+        <div className="panel-heading">
+          <BranchSelector
+            label={t("changesets.branchSelectorLabel")}
+            branches={branches}
+            selectedBranch={selected}
+            selected={(b: Branch) => {
+              this.branchSelected(b);
+            }}
+          />
+        </div>
       );
     }
     return null;
