@@ -48,6 +48,16 @@ class BranchSelector extends React.Component<Props, State> {
     this.setState({ selectedBranch });
   }
 
+  componentDidUpdate = (prevProps: Props) => {
+    const { selectedBranch, branches } = this.props;
+    if (prevProps && prevProps.selectedBranch !== selectedBranch) {
+      const selectedBranch = branches.find(
+        branch => branch.name === this.props.selectedBranch
+      );
+      this.setState({ selectedBranch });
+    }
+  };
+
   render() {
     const { branches, classes, label, disabled } = this.props;
 
