@@ -10,13 +10,15 @@ import {
   ErrorNotification,
   Loading,
   Subtitle,
+  Notification,
   orderBranches
 } from "@scm-manager/ui-components";
 import {
   fetchBranches,
   getBranches,
   getFetchBranchesFailure,
-  isFetchBranchesPending
+  isFetchBranchesPending,
+  isPermittedToCreateBranches
 } from "../modules/branches";
 import BranchTable from "../components/BranchTable";
 
@@ -44,7 +46,7 @@ class BranchesOverview extends React.Component<Props> {
   }
 
   render() {
-    const { baseUrl, loading, error, branches, t } = this.props;
+    const { loading, error, branches, t } = this.props;
 
     if (error) {
       return <ErrorNotification error={error} />;
@@ -59,16 +61,24 @@ class BranchesOverview extends React.Component<Props> {
     return (
       <>
         <Subtitle subtitle={t("branches.overview.title")} />
-        <BranchTable baseUrl={baseUrl} branches={branches} />
+        {this.renderBranchesTable()}
         {this.renderCreateButton()}
       </>
     );
   }
 
+  renderBranchesTable() {
+    const { baseUrl, branches, t } = this.props;
+    if (branches && branches.length > 0) {
+      orderBranches(branches);
+      return <BranchTable baseUrl={baseUrl} branches={branches} />;
+    }
+    return <Notification type="info">{t("branches.overview.noBranches")}</Notification>;
+  }
+
   renderCreateButton() {
     const { showCreateButton, t } = this.props;
-    if (showCreateButton || true) {
-      // TODO
+    if (showCreateButton) {
       return (
         <CreateButton
           label={t("branches.overview.createButton")}
@@ -85,12 +95,14 @@ const mapStateToProps = (state, ownProps) => {
   const loading = isFetchBranchesPending(state, repository);
   const error = getFetchBranchesFailure(state, repository);
   const branches = getBranches(state, repository);
+  const showCreateButton = isPermittedToCreateBranches(state, repository);
 
   return {
     repository,
     loading,
     error,
-    branches
+    branches,
+    showCreateButton
   };
 };
 

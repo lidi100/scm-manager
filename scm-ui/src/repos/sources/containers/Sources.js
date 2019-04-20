@@ -5,11 +5,7 @@ import { withRouter } from "react-router-dom";
 import { translate } from "react-i18next";
 import { compose } from "redux";
 import type { Branch, Repository } from "@scm-manager/ui-types";
-import {
-  ErrorNotification,
-  Loading,
-  BranchSelector
-} from "@scm-manager/ui-components";
+import { ErrorNotification, Loading, BranchSelector } from "@scm-manager/ui-components";
 import {
   fetchBranches,
   getBranches,
@@ -97,7 +93,7 @@ class Sources extends React.Component<Props> {
     if (currentFileIsDirectory) {
       return (
         <div className="panel">
-          {this.renderBranchSelector()}
+          <div className="panel-heading">{this.renderBranchSelector()}</div>
           <FileTree
             repository={repository}
             revision={revision}
@@ -116,18 +112,16 @@ class Sources extends React.Component<Props> {
   renderBranchSelector = () => {
     const { branches, revision, t } = this.props;
 
-    if (branches && branches.length > 0) {
+    if (branches) {
       return (
-        <div className="panel-heading">
-          <BranchSelector
-            branches={branches}
-            selectedBranch={revision}
-            label={t("changesets.branchSelectorLabel")}
-            selected={(b: Branch) => {
-              this.branchSelected(b);
-            }}
-          />
-        </div>
+        <BranchSelector
+          branches={branches}
+          selectedBranch={revision}
+          label={t("changesets.branchSelectorLabel")}
+          selected={(b: Branch) => {
+            this.branchSelected(b);
+          }}
+        />
       );
     }
     return null;
