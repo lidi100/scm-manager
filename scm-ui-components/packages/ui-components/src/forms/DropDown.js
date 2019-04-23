@@ -22,6 +22,7 @@ class DropDown extends React.Component<Props> {
           onChange={this.change}
           disabled={disabled}
         >
+          <option key="" />
           {options.map((option, index) => {
             return (
               <option key={option} value={optionValues && optionValues[index] ? optionValues[index] : option}>
