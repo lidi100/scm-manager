@@ -1,9 +1,15 @@
 // @flow
-
 import React from "react";
-import {translate} from "react-i18next";
-import type {Branch, Repository} from "@scm-manager/ui-types";
-import {apiClient, ErrorPage, Loading, Subtitle, BranchSelector, SubmitButton} from "@scm-manager/ui-components";
+import { translate } from "react-i18next";
+import type { Branch, Repository } from "@scm-manager/ui-types";
+import {
+  apiClient,
+  ErrorPage,
+  Loading,
+  Subtitle,
+  BranchSelector,
+  SubmitButton
+} from "@scm-manager/ui-components";
 
 type Props = {
   repository: Repository,
@@ -24,7 +30,6 @@ type State = {
 const GIT_CONFIG_CONTENT_TYPE = "application/vnd.scmm-gitConfig+json";
 
 class RepositoryConfig extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
 
@@ -67,10 +72,18 @@ class RepositoryConfig extends React.Component<Props, State> {
 
   branchSelected = (branch: Branch) => {
     if (!branch) {
-      this.setState({ ...this.state, selectedBranchName: undefined, defaultBranchChanged: false});
+      this.setState({
+        ...this.state,
+        selectedBranchName: undefined,
+        defaultBranchChanged: false
+      });
       return;
     }
-    this.setState({ ...this.state, selectedBranchName: branch.name, defaultBranchChanged: false });
+    this.setState({
+      ...this.state,
+      selectedBranchName: branch.name,
+      defaultBranchChanged: false
+    });
   };
 
   submit = (event: Event) => {
@@ -99,7 +112,13 @@ class RepositoryConfig extends React.Component<Props, State> {
 
   render() {
     const { t } = this.props;
-    const { loadingBranches, loadingDefaultBranch, submitPending, error, disabled } = this.state;
+    const {
+      loadingBranches,
+      loadingDefaultBranch,
+      submitPending,
+      error,
+      disabled
+    } = this.state;
 
     if (error) {
       return (
@@ -111,17 +130,19 @@ class RepositoryConfig extends React.Component<Props, State> {
       );
     }
 
-    const submitButton = disabled? null: <SubmitButton
-      label={t("scm-git-plugin.repo-config.submit")}
-      loading={submitPending}
-      disabled={!this.state.selectedBranchName}
-    />;
+    const submitButton = disabled ? null : (
+      <SubmitButton
+        label={t("scm-git-plugin.repo-config.submit")}
+        loading={submitPending}
+        disabled={!this.state.selectedBranchName}
+      />
+    );
 
     if (!(loadingBranches || loadingDefaultBranch)) {
       return (
         <>
           <hr />
-          <Subtitle subtitle={t("scm-git-plugin.repo-config.title")}/>
+          <Subtitle subtitle={t("scm-git-plugin.repo-config.title")} />
           {this.renderBranchChangedNotification()}
           <form onSubmit={this.submit}>
             <BranchSelector
@@ -131,7 +152,7 @@ class RepositoryConfig extends React.Component<Props, State> {
               selectedBranch={this.state.selectedBranchName}
               disabled={disabled}
             />
-            { submitButton }
+            {submitButton}
           </form>
         </>
       );
