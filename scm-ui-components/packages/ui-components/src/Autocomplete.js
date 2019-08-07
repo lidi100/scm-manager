@@ -1,8 +1,11 @@
 // @flow
 import React from "react";
+import injectSheet from "react-jss";
 import { AsyncCreatable, Async } from "react-select";
+import classNames from "classnames";
 import type { AutocompleteObject, SelectValue } from "@scm-manager/ui-types";
 import LabelWithHelpIcon from "./forms/LabelWithHelpIcon";
+import {translate} from "react-i18next";
 
 type Props = {
   loadSuggestions: string => Promise<AutocompleteObject>,
@@ -13,10 +16,19 @@ type Props = {
   placeholder: string,
   loadingMessage: string,
   noOptionsMessage: string,
-  creatable?: boolean
+  creatable?: boolean,
+
+  // context props
+  classes: any
 };
 
 type State = {};
+
+const styles = {
+  zIndex: {
+    zIndex: 5
+  }
+};
 
 class Autocomplete extends React.Component<Props, State> {
   static defaultProps = {
@@ -51,12 +63,13 @@ class Autocomplete extends React.Component<Props, State> {
       loadingMessage,
       noOptionsMessage,
       loadSuggestions,
-      creatable
+      creatable,
+      classes
     } = this.props;
     return (
       <div className="field">
         <LabelWithHelpIcon label={label} helpText={helpText} />
-        <div className="control">
+        <div className={classNames("control", classes.zIndex)}>
           {creatable ? (
             <AsyncCreatable
               cacheOptions
@@ -91,4 +104,4 @@ class Autocomplete extends React.Component<Props, State> {
   }
 }
 
-export default Autocomplete;
+export default injectSheet(styles)(Autocomplete);
