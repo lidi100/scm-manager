@@ -83,7 +83,6 @@ public class MeDtoFactory extends HalAppenderMapper {
 
   private MeDto createDto(User user) {
     Links.Builder linksBuilder = linkingTo().self(resourceLinks.me().self());
-    if (isNotAnonymous(user)) {
       if (UserPermissions.delete(user).isPermitted()) {
         linksBuilder.single(link("delete", resourceLinks.me().delete(user.getName())));
       }
@@ -93,15 +92,10 @@ public class MeDtoFactory extends HalAppenderMapper {
       if (userManager.isTypeDefault(user) && UserPermissions.changePassword(user).isPermitted()) {
         linksBuilder.single(link("password", resourceLinks.me().passwordChange()));
       }
-    }
 
     Embedded.Builder embeddedBuilder = embeddedBuilder();
     applyEnrichers(new EdisonHalAppender(linksBuilder, embeddedBuilder), new Me(), user);
 
     return new MeDto(linksBuilder.build(), embeddedBuilder.build());
-  }
-
-  private boolean isNotAnonymous(User user) {
-    return !Authentications.isSubjectAnonymous(user.getName());
   }
 }

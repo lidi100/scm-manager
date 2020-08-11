@@ -39093,15 +39093,7 @@ exports[`Storyshots Layout|Footer Default 1`] = `
               footer.user.profile
             </a>
           </li>
-          <li>
-            <a
-              className=""
-              href="/me/settings/password"
-              onClick={[Function]}
-            >
-              profile.changePasswordNavLink
-            </a>
-          </li>
+          <div />
         </ul>
       </section>
       <section
@@ -39186,16 +39178,18 @@ exports[`Storyshots Layout|Footer Full 1`] = `
         <div
           className="FooterSection__Title-lx0ikb-0 gUQuRF"
         >
-          <span
-            className="Footer__AvatarContainer-k70cxq-1 faWKKx image is-rounded"
-          >
-            <img
-              alt="trillian"
-              className="is-rounded Footer__VCenteredAvatar-k70cxq-0 btJmxP"
-              src="test-file-stub"
-            />
-          </span>
-          Trillian McMillian
+          <div>
+            <span
+              className="Footer__AvatarContainer-k70cxq-1 faWKKx image is-rounded"
+            >
+              <img
+                alt="trillian"
+                className="is-rounded Footer__VCenteredAvatar-k70cxq-0 btJmxP"
+                src="test-file-stub"
+              />
+            </span>
+            Trillian McMillian
+          </div>
         </div>
         <ul
           className="FooterSection__Menu-lx0ikb-1 idmusL"
@@ -39209,24 +39203,7 @@ exports[`Storyshots Layout|Footer Full 1`] = `
               footer.user.profile
             </a>
           </li>
-          <li>
-            <a
-              className=""
-              href="/me/settings/password"
-              onClick={[Function]}
-            >
-              profile.changePasswordNavLink
-            </a>
-          </li>
-          <li>
-            <a
-              className=""
-              href="/"
-              onClick={[Function]}
-            >
-              Authorized Keys
-            </a>
-          </li>
+          <div />
         </ul>
       </section>
       <section
@@ -39338,16 +39315,18 @@ exports[`Storyshots Layout|Footer With Avatar 1`] = `
         <div
           className="FooterSection__Title-lx0ikb-0 gUQuRF"
         >
-          <span
-            className="Footer__AvatarContainer-k70cxq-1 faWKKx image is-rounded"
-          >
-            <img
-              alt="trillian"
-              className="is-rounded Footer__VCenteredAvatar-k70cxq-0 btJmxP"
-              src="test-file-stub"
-            />
-          </span>
-          Trillian McMillian
+          <div>
+            <span
+              className="Footer__AvatarContainer-k70cxq-1 faWKKx image is-rounded"
+            >
+              <img
+                alt="trillian"
+                className="is-rounded Footer__VCenteredAvatar-k70cxq-0 btJmxP"
+                src="test-file-stub"
+              />
+            </span>
+            Trillian McMillian
+          </div>
         </div>
         <ul
           className="FooterSection__Menu-lx0ikb-1 idmusL"
@@ -39361,15 +39340,7 @@ exports[`Storyshots Layout|Footer With Avatar 1`] = `
               footer.user.profile
             </a>
           </li>
-          <li>
-            <a
-              className=""
-              href="/me/settings/password"
-              onClick={[Function]}
-            >
-              profile.changePasswordNavLink
-            </a>
-          </li>
+          <div />
         </ul>
       </section>
       <section
@@ -39472,24 +39443,7 @@ exports[`Storyshots Layout|Footer With Plugin Links 1`] = `
               footer.user.profile
             </a>
           </li>
-          <li>
-            <a
-              className=""
-              href="/me/settings/password"
-              onClick={[Function]}
-            >
-              profile.changePasswordNavLink
-            </a>
-          </li>
-          <li>
-            <a
-              className=""
-              href="/"
-              onClick={[Function]}
-            >
-              Authorized Keys
-            </a>
-          </li>
+          <div />
         </ul>
       </section>
       <section

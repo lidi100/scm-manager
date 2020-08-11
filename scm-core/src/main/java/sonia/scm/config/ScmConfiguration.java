@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-    
+
 package sonia.scm.config;
 
 
@@ -312,8 +312,21 @@ public class ScmConfiguration implements Configuration {
     return realmDescription;
   }
 
+  /**
+   * since 2.4.0
+   * @return anonymousMode
+   */
   public AnonymousMode getAnonymousMode() {
     return anonymousMode;
+  }
+
+  @Deprecated
+  /**
+   * @deprecated since 2.4.0
+   * @use ScmConfiguration#getAnonymousMode instead
+   */
+  public boolean isAnonymousAccessEnabled() {
+    return anonymousMode != AnonymousMode.OFF;
   }
 
   public boolean isDisableGroupingGrid() {
@@ -361,6 +374,23 @@ public class ScmConfiguration implements Configuration {
     return skipFailedAuthenticators;
   }
 
+  @Deprecated
+  /**
+   * @deprecated since 2.4.0
+   * @use ScmConfiguration#setAnonymousMode instead
+   */
+  public void setAnonymousAccessEnabled(boolean anonymousAccessEnabled) {
+    if (anonymousAccessEnabled) {
+      this.anonymousMode = AnonymousMode.PROTOCOL_ONLY;
+    } else {
+      this.anonymousMode = AnonymousMode.OFF;
+    }
+  }
+
+  /**
+   * since 2.4.0
+   * @param mode
+   */
   public void setAnonymousMode(AnonymousMode mode) {
     this.anonymousMode = mode;
   }

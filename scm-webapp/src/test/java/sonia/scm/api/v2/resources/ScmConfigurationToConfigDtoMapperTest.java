@@ -123,6 +123,21 @@ public class ScmConfigurationToConfigDtoMapperTest {
     assertFalse(dto.getLinks().hasLink("update"));
   }
 
+  @Test
+  public void shouldMapAnonymousAccessField() {
+    ScmConfiguration config = createConfiguration();
+
+    when(subject.hasRole("configuration:write:global")).thenReturn(false);
+    ConfigDto dto = mapper.map(config);
+
+    assertTrue(dto.isAnonymousAccessEnabled());
+
+    config.setAnonymousMode(AnonymousMode.OFF);
+    ConfigDto secondDto = mapper.map(config);
+
+    assertFalse(secondDto.isAnonymousAccessEnabled());
+  }
+
   private ScmConfiguration createConfiguration() {
     ScmConfiguration config = new ScmConfiguration();
     config.setProxyPassword("heartOfGold");

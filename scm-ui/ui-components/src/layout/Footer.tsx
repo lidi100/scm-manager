@@ -31,6 +31,7 @@ import styled from "styled-components";
 import { EXTENSION_POINT } from "../avatar/Avatar";
 import ExternalNavLink from "../navigation/ExternalNavLink";
 import { useTranslation } from "react-i18next";
+import { createAttributesForTesting } from "../devBuild";
 
 type Props = {
   me?: Me;
@@ -45,7 +46,12 @@ type TitleWithIconsProps = {
 
 const TitleWithIcon: FC<TitleWithIconsProps> = ({ icon, title }) => (
   <>
-    <i className={`fas fa-${icon} fa-fw`} /> {title}
+    <i
+      className={`fas fa-${icon} fa-fw`}
+      //@ts-ignore replace the spaces with dashes since cypress won't find it otherwise
+      {...createAttributesForTesting(title.replaceAll(" ", "-"))}
+    />{" "}
+    {title}
   </>
 );
 
@@ -66,12 +72,13 @@ const AvatarContainer = styled.span`
 `;
 
 const TitleWithAvatar: FC<TitleWithAvatarProps> = ({ me }) => (
-  <>
+  //@ts-ignore replace the spaces with dashes since cypress won't find it otherwise
+  <div {...createAttributesForTesting(me.displayName.replaceAll(" ", "-"))}>
     <AvatarContainer className="image is-rounded">
       <VCenteredAvatar person={me} representation="rounded" />
     </AvatarContainer>
     {me.displayName}
-  </>
+  </div>
 );
 
 const Footer: FC<Props> = ({ me, version, links }) => {
@@ -90,14 +97,14 @@ const Footer: FC<Props> = ({ me, version, links }) => {
   }
 
   let meSectionBody = <div />;
-  {
-    if (me.name !== "_anonymous")
-      meSectionBody = (
-        <>
-          <NavLink to="/me/settings/password" label={t("profile.changePasswordNavLink")} />
-          <ExtensionPoint name="profile.setting" props={extensionProps} renderAll={true} />
-        </>
-      );
+  // Do not show the additional links in footer if user is anonymous
+  if (links?.logout) {
+    meSectionBody = (
+      <>
+        <NavLink to="/me/settings/password" label={t("profile.changePasswordNavLink")} />
+        <ExtensionPoint name="profile.setting" props={extensionProps} renderAll={true} />
+      </>
+    );
   }
 
   return (
@@ -105,7 +112,7 @@ const Footer: FC<Props> = ({ me, version, links }) => {
       <section className="section container">
         <div className="columns is-size-7">
           <FooterSection title={meSectionTile}>
-            <NavLink to="/me" label={t("footer.user.profile")} />
+            <NavLink to="/me" label={t("footer.user.profile")} testId="footer-user-profile" />
             {meSectionBody}
           </FooterSection>
           <FooterSection title={<TitleWithIcon title={t("footer.information.title")} icon="info-circle" />}>

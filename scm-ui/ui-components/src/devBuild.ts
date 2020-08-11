@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package sonia.scm.security;
+export const isDevBuild = () => (process.env.NODE_ENV === "development")
 
-/**
- * Available modes for anonymous access
- * @since 2.4.0
- */
-public enum AnonymousMode {
-  FULL, PROTOCOL_ONLY, OFF
-}
+export const createAttributesForTesting = (testId?: string) => {
+  if (!testId || !isDevBuild()) {
+    return undefined;
+  }
+  return {
+    "data-testid": testId
+  }
+};

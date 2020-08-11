@@ -25,6 +25,7 @@ import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { User } from "@scm-manager/ui-types";
 import { Checkbox, DateFromNow, MailLink } from "@scm-manager/ui-components";
+import { createAttributesForTesting } from "@scm-manager/ui-components/src";
 
 type Props = WithTranslation & {
   user: User;
@@ -38,11 +39,13 @@ class Details extends React.Component<Props> {
         <tbody>
           <tr>
             <th>{t("user.name")}</th>
-            <td>{user.name}</td>
+            {/*@ts-ignore replace the spaces with dashes since cypress won't find it otherwise*/}
+            <td {...createAttributesForTesting(user.name.replaceAll(" ", "-"))}>{user.name}</td>
           </tr>
           <tr>
             <th>{t("user.displayName")}</th>
-            <td>{user.displayName}</td>
+            {/*@ts-ignore replace the spaces with dashes since cypress won't find it otherwise*/}
+            <td {...createAttributesForTesting(user.displayName.replaceAll(" ", "-"))}>{user.displayName}</td>
           </tr>
           <tr>
             <th>{t("user.mail")}</th>
